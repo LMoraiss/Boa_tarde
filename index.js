@@ -1,30 +1,43 @@
-let num = [];
+let numero1
+let numero2
 
-console.log("Digite dois números para calcularmos o MMC entre eles");
+process.stdin.on("data", function(data) {
+    let input = +data.toString().trim()
 
-process.stdin.on("data", function (data) {
-    num.push(parseInt(data.toString().trim()));
-    
-    if (num.length === 2) {
-        const num1 = num[0];
-        const num2 = num[1];
+    if(!numero1) {
 
-        function calcularMDC(a, b) {
-            while (b !== 0) {
-                let temp = b;
-                b = a % b;
-                a = temp;
+        numero1 = input
+    } else {
+        numero2 = input
+
+        let i
+        let maior
+        let menor
+
+        if(numero1 > numero2) {
+            maior = numero1
+            menor = numero2
+        } else {
+            maior = numero2
+            menor = numero1
+        }
+
+        i = maior
+        for (i; i <= numero1 * numero2; i += maior) {
+            if(i % numero1 == 0 && i % numero2 == 0) {
+                console.log("MMC: " + i)
+                break
             }
-            return a;
         }
 
-        function calcularMMC(a, b) {
-            return (a * b) / calcularMDC(a, b);
-        }
+        i = menor
 
-        const mmc = calcularMMC(num1, num2);
-        console.log(`O MMC de ${num1} e ${num2} é ${mmc}.`);
-        
-        process.stdin.pause(); // Para parar de ler a entrada do usuário
+        for(i; i > 0; i--) {
+            if(numero1 % i == 0 && numero2 % i ==0) {
+                console.log("MDC: " + i)
+                break;
+            }
+        }
+        process.exit()
     }
-});
+})
